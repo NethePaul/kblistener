@@ -1,0 +1,88 @@
+every command start with an '#'
+parameters are passed before the command starting with a ':'
+	or a word(alphanumeric + '_')
+	or a math expression(any letters except ':' and '#', that can be evaluated to a number)
+parameters in [] are optional
+parameters in <> must be given
+if an optional parameter is skipped, an extra ':' still has to be written to differentiate the parameters 
+a command can be executed for a parameter(e.g. ::10+x#num#set  or  :5+:load#call*2#num)
+
+#rec						to begin a recording, commands will be recorded as well, calling #rec during a recording creates a local recording only available when calling it from inside the recording or from a saved
+#end						to end the current recording
+:[word name]#call			to replay the last recording, if a name is given it will load the recording from the saves and replay that instead
+:[word name]:[math x]#rep	to repeatedly replay the last recording x( = 1 by default ) times, if a name is given it will load the recording from the saves and replay that instead
+:<math x>#set				to set the default number of times to replay a recording for #rep
+:<word name>#save			to save the current recording
+:<word name>#load			to load a saved recording
+#prev						to drop the last recording, the recording before that will become the new "last recording"
+:<math expr>#num			to calculate a mathematical expression
+:<math expr>#calc			to calculate a mathematical expression, but without returning the result
+:<word name>#inc			evaluated like :name+1=>name#num. if the variable did not exist, it will be defined to 1
+:<word name>#dec			evaluated like :name-1=>name#num. if the variable did not exist, it will be defined to -1
+
+
+:[word then]:<math con>#if
+	to replay the 'then' saved recording, if the con mathematical expression evaluates to not 0 or true
+
+#cmd		to open an instance of the command line
+#exit		to close the listener
+#close		to close the foreground window
+#forceclose	to force close the foreground window
+#test		to check if kblistener is running
+#cont		to continue a replay if it was interrupted by UIPI
+	applications are not permitted to inject input into applications with an higher integrity level
+	e.g. if the kblistener is executed with user priveliges, changing the foreground window to an application with administrator priveliges like taskmanager will block the output to and input from the kblistener
+
+math expressions:
+"def <name>"
+	to define a variable with the value 0. if the variable is already defined, the previous value is kept
+"<expr>=><name>"
+	assigns the variable name the value of the expression
+"<expr>[=><name>]<comparison operator><expr>"
+	compares the first expression to the second, and optionally assigns a variable to the value of the first expression
+	comparison operators:
+		>	greater than
+		>=	greater or equals to
+		<	smaller than
+		<=	smaller or equals to
+		=	equals to
+		!=	not equals to
+"def <name>(<parameter>)=<expr>"
+	defines a function
+	e.g. "def f(a,b)=a+b", "f(5,6)" -> 11
+"def <param 1> <name> <param 2>=<expr>"
+	defines an operator, that can be called like "<param1><name><param2>"
+	e.g "def a add b=a+b", "5add6" -> 11
+note: if a function or operator defines anything, it will be local to the function or operator and can only be accessed from within or with "<outer name>.<inner name>)"
+	e.g. "def f()=def g()=10" (define outer function), "f()" (define inner function), "f.g()" -> 10 (access and call inner function)
+note: multiple functions or operators can share the same scope if the later ones are defined like "def <original function name>.<name>(<parameters>)=<expr>" or "def <original function name>.<param 1> <name> <param 2>=<expr>"
+	e.g. "def getx()=def x", "def getx.setx(y)=y=>x", "setx(10)" , "getx()" -> 10
+note: parameters are locale variables, that are reassigned when the function is called
+note: variable definitions return the value of the variable
+note: operator and function definitions return 1 on success and 0 on failure
+"undef <name>"
+	undefines all variables and functions with that name
+
+math predefined operators and functions
+"a+b"		addition
+"a-b"		subtraction
+"a*b"		multiplication
+"ab"		implicit multiplication of a and b
+"a/b"		division
+"a%b"		modulos
+"aexpb"		potenciation (a to the power of b)
+"arootb"	root (bth root of a)
+"alogb"		logarhythm (log of a, base b)
+"lnx"		natural log of x
+"cosx"		cosinus of x
+"sinx"		sinus of x
+"tanx"		tangens of x
+"acosx"		arccosinus of x
+"asinx"		arcsinus of x
+"atanx"		arctangens of x
+"a!"		factorial
+brackets are supported
+	"(a+b)*c" 
+square brackets act like round brackets, except that you can define anything, assign variables, and make comparisons inside
+	"[a+b=>x]-c" adds a and b, then assigns the result to x, then subtracts c
+	"[def f()=10]0+f()" defines a function, and executes it (a successful function or operator definition returns 1 and a failed returns 0)

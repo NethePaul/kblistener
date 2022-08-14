@@ -1,0 +1,283 @@
+//to use this file, include it after first defining a macro 'l' like
+//this file is one big switch-case-block
+//#define l(param) case VK_##param:/*your code*/ break;/*or*/ return x;
+//every param is guaranteed to be a VK_... macro but, without the VK_ at the front
+//the 'l' macro will be undefined at the end
+#ifdef l
+switch (wp)
+{
+
+	l(LBUTTON);
+	l(RBUTTON);
+	l(CANCEL);
+	l(MBUTTON);    /* NOT contiguous with L & RBUTTON */
+
+#ifdef VK_XBUTTON1
+
+#undef XBUTTON1
+#undef XBUTTON2
+	l(XBUTTON1);    /* NOT contiguous with L & RBUTTON */
+	l(XBUTTON2);    /* NOT contiguous with L & RBUTTON */
+#endif
+				/*
+				 *);07 : reserved
+				 */
+
+
+	l(BACK);
+	l(TAB);
+
+	/*
+	 *);0A -);0B : reserved
+	 */
+
+	l(CLEAR);
+	l(RETURN);
+
+	/*
+	 *);0E -);0F : unassigned
+	 */
+
+	l(SHIFT);
+	l(CONTROL);
+	l(MENU);
+	l(PAUSE);
+	l(CAPITAL);
+
+	l(KANA);
+	//l(HANGEUL);  /* old name - should be here for compatibility */
+	//l(HANGUL);
+	l(IME_ON);
+	l(JUNJA);
+	l(FINAL);
+	//l(HANJA);
+	l(KANJI);
+	l(IME_OFF);
+
+	l(ESCAPE);
+
+	l(CONVERT);
+	l(NONCONVERT);
+	l(ACCEPT);
+	l(MODECHANGE);
+
+	l(SPACE);
+	l(PRIOR);
+	l(NEXT);
+	l(END);
+	l(HOME);
+	l(LEFT);
+	l(UP);
+	l(RIGHT);
+	l(DOWN);
+	l(SELECT);
+	l(PRINT);
+	l(EXECUTE);
+	l(SNAPSHOT);
+	l(INSERT);
+#undef DELETE
+	l(DELETE);
+	l(HELP);
+
+	/*
+	 * 0 - 9 are the same as ASCII '0' - '9' ();30 -);39)
+	 *);3A -);40 : unassigned
+	 * A - Z are the same as ASCII 'A' - 'Z' ();41 -);5A)
+	 */
+
+	l(LWIN);
+	l(RWIN);
+	l(APPS);
+
+	/*
+	 *);5E : reserved
+	 */
+
+	l(SLEEP);
+
+	l(NUMPAD0);
+	l(NUMPAD1);
+	l(NUMPAD2);
+	l(NUMPAD3);
+	l(NUMPAD4);
+	l(NUMPAD5);
+	l(NUMPAD6);
+	l(NUMPAD7);
+	l(NUMPAD8);
+	l(NUMPAD9);
+	l(MULTIPLY);
+	l(ADD);
+	l(SEPARATOR);
+	l(SUBTRACT);
+#undef DECIMAL
+	l(DECIMAL);
+	l(DIVIDE);
+	l(F1);
+	l(F2);
+	l(F3);
+	l(F4);
+	l(F5);
+	l(F6);
+	l(F7);
+	l(F8);
+	l(F9);
+	l(F10);
+	l(F11);
+	l(F12);
+	l(F13);
+	l(F14);
+	l(F15);
+	l(F16);
+	l(F17);
+	l(F18);
+	l(F19);
+	l(F20);
+	l(F21);
+	l(F22);
+	l(F23);
+	l(F24);
+#ifdef VK_NAVIGATION_VIEW
+
+	l(NAVIGATION_VIEW);
+	l(NAVIGATION_MENU);
+	l(NAVIGATION_UP);
+	l(NAVIGATION_DOWN);
+	l(NAVIGATION_LEFT);
+	l(NAVIGATION_RIGHT);
+	l(NAVIGATION_ACCEPT);
+	l(NAVIGATION_CANCEL);
+
+#endif
+
+	l(NUMLOCK);
+	l(SCROLL);
+
+	l(OEM_NEC_EQUAL);
+	//l(OEM_FJ_JISHO);
+	l(OEM_FJ_MASSHOU);
+	l(OEM_FJ_TOUROKU);
+	l(OEM_FJ_LOYA);
+	l(OEM_FJ_ROYA);
+
+	l(LSHIFT);
+	l(RSHIFT);
+	l(LCONTROL);
+	l(RCONTROL);
+	l(LMENU);
+	l(RMENU);
+
+#ifdef VK_BROWSER_BACK
+	l(BROWSER_BACK);
+	l(BROWSER_FORWARD);
+	l(BROWSER_REFRESH);
+	l(BROWSER_STOP);
+	l(BROWSER_SEARCH);
+	l(BROWSER_FAVORITES);
+	l(BROWSER_HOME);
+
+	l(VOLUME_MUTE);
+	l(VOLUME_DOWN);
+	l(VOLUME_UP);
+	l(MEDIA_NEXT_TRACK);
+	l(MEDIA_PREV_TRACK);
+	l(MEDIA_STOP);
+	l(MEDIA_PLAY_PAUSE);
+	l(LAUNCH_MAIL);
+	l(LAUNCH_MEDIA_SELECT);
+	l(LAUNCH_APP1);
+	l(LAUNCH_APP2);
+
+#endif
+	l(OEM_1);
+	l(OEM_PLUS);   // '+' any country
+	l(OEM_COMMA);   // ',' any country
+	l(OEM_MINUS);   // '-' any country
+	l(OEM_PERIOD);   // '.' any country
+	l(OEM_2);   // '/?' for US
+	l(OEM_3);   // '`~' for US
+
+							   /*
+								*);C1 -);C2 : reserved
+								*/
+
+#ifdef VK_GAMEPAD_A
+
+								/*
+								 *);C3 -);DA : Gamepad input
+								 */
+
+	l(GAMEPAD_A);// C3 // reserved
+	l(GAMEPAD_B);//C4 // reserved
+	l(GAMEPAD_X);//C5 // reserved
+	l(GAMEPAD_Y);//C6 // reserved
+	l(GAMEPAD_RIGHT_SHOULDER);//C7 // reserved
+	l(GAMEPAD_LEFT_SHOULDER);//C8 // reserved
+	l(GAMEPAD_LEFT_TRIGGER);//C9 // reserved
+	l(GAMEPAD_RIGHT_TRIGGER);//CA // reserved
+	l(GAMEPAD_DPAD_UP);//CB // reserved
+	l(GAMEPAD_DPAD_DOWN);//CC // reserved
+	l(GAMEPAD_DPAD_LEFT);//CD // reserved
+	l(GAMEPAD_DPAD_RIGHT);//CE // reserved
+	l(GAMEPAD_MENU);//CF // reserved
+	l(GAMEPAD_VIEW);//D0 // reserved
+	l(GAMEPAD_LEFT_THUMBSTICK_BUTTON);//D1 // reserved
+	l(GAMEPAD_RIGHT_THUMBSTICK_BUTTON);//D2 // reserved
+	l(GAMEPAD_LEFT_THUMBSTICK_UP);//D3 // reserved
+	l(GAMEPAD_LEFT_THUMBSTICK_DOWN);//D4 // reserved
+	l(GAMEPAD_LEFT_THUMBSTICK_RIGHT);//D5 // reserved
+	l(GAMEPAD_LEFT_THUMBSTICK_LEFT);//D6 // reserved
+	l(GAMEPAD_RIGHT_THUMBSTICK_UP);//D7 // reserved
+	l(GAMEPAD_RIGHT_THUMBSTICK_DOWN);//D8 // reserved
+	l(GAMEPAD_RIGHT_THUMBSTICK_RIGHT);//D9 // reserved
+	l(GAMEPAD_RIGHT_THUMBSTICK_LEFT);//DA // reserved
+
+#endif /* _WIN32_WINNT >=);//0604 */
+
+
+	l(OEM_4);//DB  //  '[{' for US
+	l(OEM_5);//DC  //  '\|' for US
+	l(OEM_6);//DD  //  ']}' for US
+	l(OEM_7);//DE  //  ''"' for US
+	l(OEM_8);//DF
+
+	l(OEM_AX);//E1  //  'AX' key on Japanese AX kbd
+	l(OEM_102);//E2  //  "<>" or "\|" on RT 102-key kbd.
+	l(ICO_HELP);//E3  //  Help key on ICO
+	l(ICO_00);//E4  //  00 key on ICO
+
+#ifdef VK_PROCESSKEY
+	l(PROCESSKEY);//E5
+#endif /* WINVER >=);//0400 */
+
+	l(ICO_CLEAR);//E6
+
+
+#ifdef VK_PACKET
+	l(PACKET);//E7
+#endif 
+	l(OEM_RESET);//E9
+	l(OEM_JUMP);//EA
+	l(OEM_PA1);//EB
+	l(OEM_PA2);//EC
+	l(OEM_PA3);//ED
+	l(OEM_WSCTRL);//EE
+	l(OEM_CUSEL);//EF
+	l(OEM_ATTN);//F0
+	l(OEM_FINISH);//F1
+	l(OEM_COPY);//F2
+	l(OEM_AUTO);//F3
+	l(OEM_ENLW);//F4
+	l(OEM_BACKTAB);//F5
+
+	l(ATTN);//F6
+	l(CRSEL);//F7
+	l(EXSEL);//F8
+	l(EREOF);//F9
+	l(PLAY);//FA
+	l(ZOOM);//FB
+	l(NONAME);//FC
+	l(PA1);//FD
+	l(OEM_CLEAR);//FE
+#undef l
+}
+#endif
