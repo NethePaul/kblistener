@@ -48,6 +48,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="documentation.txt" />
+    <None Include="readme.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="documentation.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
