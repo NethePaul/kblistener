@@ -12,6 +12,7 @@
 #include"strtokeyh.h"
 #include"vkex.h"
 #include"repeatablequeue.h"
+#include<Psapi.h>
 
 HOOKPROC hook=0;
 HHOOK hhook=0;
@@ -43,10 +44,10 @@ void forceclose() {
 	HWND h = GetForegroundWindow();
 	GetWindowThreadProcessId(h, &PID);
 	char buffer[MAX_PATH]{};
-	if (GetWindowTextA(hwnd, buffer, MAX_PATH)) {
-		auto s = std::string(buffer);
-		if (s == "Windows Explorer")return;
-		if (s == "none")return;
+	auto handle=OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, 0, PID);
+	if (GetModuleFileNameExA(handle, 0, buffer, MAX_PATH)) {
+		for (int i = 0; buffer[i];i++)if (isupper(buffer[i]))buffer[i] += 'a' - 'A';
+		if (std::string(buffer).find("explorer.exe") != std::string::npos)return;
 	}
 
 	std::ostringstream ss;
