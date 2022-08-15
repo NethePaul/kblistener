@@ -5,7 +5,9 @@ parameters are passed before the command starting with a ':'
 parameters in [] are optional
 parameters in <> must be given
 if an optional parameter is skipped, an extra ':' still has to be written to differentiate the parameters 
-a command can be executed for a parameter(e.g. ::10+x#num#set  or  :5+:load#call*2#num)
+a command can be executed for a parameter(e.g. ":5+:#call*2#num" adds 5 to the double of the last replay interpreted as a number)
+a replay can be interrupted by pressing the escape button (either #discard or #cont has to be called afterwards)
+when entering a command, only printable characters and backspaces are accounted for, while other command characters, arrow keys, pos1 and end keys, and new line characters are ignored
 
 #rec						to begin a recording, commands will be recorded as well, calling #rec during a recording creates a local recording only available when calling it from inside the recording or from a saved
 #end						to end the current recording
@@ -29,10 +31,11 @@ a command can be executed for a parameter(e.g. ::10+x#num#set  or  :5+:load#call
 #close		to close the foreground window
 #forceclose	to force close the foreground window
 #test		to check if kblistener is running
-#cont		to continue a replay if it was interrupted by UIPI
-	applications are not permitted to inject input into applications with an higher integrity level
-	e.g. if the kblistener is executed with user priveliges, changing the foreground window to an application with administrator priveliges like taskmanager will block the output to and input from the kblistener
-
+#cont		to continue a replay if it was interrupted
+#discard	to discard the last replay if it was interrupted
+#pause		to pause kblistener (it will not react to any command except #resume)
+#resume		to resume kblistener
+	
 math expressions:
 "def <name>"
 	to define a variable with the value 0. if the variable is already defined, the previous value is kept

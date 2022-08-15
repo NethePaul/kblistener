@@ -9,8 +9,9 @@ constexpr auto WM_SENDBACK = WM_USER + 1;
 
 void repnext();
 void cont();
+void interrupt();
+void discard();
 void receivedanswer();
-void send(const INPUT&in);
 void del(int i);
 int loadintparam(CircularBuffer<wchar_t, CMDLEN>&command);
 bool singlewordfilter(wchar_t);//filters out only a singular word

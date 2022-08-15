@@ -301,10 +301,18 @@ void dec() {
 		reptxt(str);
 	}
 }
+//input for commands paused
+bool paused = false;
+int nonremovablecommands = 1;//first 1 commands will not be removed after entering 
+int nonpauseablecommands = 2;//first 2 commands will not be ignored while paused
+void pause() { paused = true; }
+void resume() { paused = false; }
 
 #define c(id) L"#"#id,id
 Command commands[] = { 
 	L"#",setcmdindex,
+	c(resume),
+	c(pause),
 	L"#calc",calc_,
 	L"#if",If,
 	c(exit),
@@ -323,7 +331,8 @@ Command commands[] = {
 	c(call),
 	c(inc),
 	c(dec),
-	c(cont)
+	c(cont),
+	c(discard)
 };
 #undef c
 
@@ -379,6 +388,9 @@ LRESULT CALLBACK proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 			if (is_vk(wp)) { log(L"[DOWN]:"); log_vk(wp); }
 		}return 0;
 	case WM_KEYUP:
+		if (wp == VK_ESCAPE) {
+			interrupt();
+		}
 		if (wp == VK_REPLAYING) {
 			if(replaying)replaying--;
 		}
@@ -397,17 +409,19 @@ LRESULT CALLBACK proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 			}
 			addNL = true;
 			command.push(wp);
-			for (const auto&c : commands) {
-				if (command.cpr(c.id)) {
+			for (int i = 0; i < sizeof(commands)/sizeof(*commands);i++) {
+				auto&c = commands[i];
+				if ((!paused||i<nonpauseablecommands)
+					&& command.cpr(c.id)) {
 					
 					//remove last command
 					int l = lstrlenW(c.id);
-					if (l > 1) {
+					if (i >= nonremovablecommands) {
 						del(l);
 						command.pop(l);
 					}
-					
 					c.f();
+					
 					break;
 				}
 			}

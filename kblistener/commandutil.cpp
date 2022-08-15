@@ -39,6 +39,14 @@ void cont()
 		send(lastsent);//resend last
 	repnext();
 }
+void interrupt() {
+	alreadyawaitinganswer++;
+	lastsent.type = 0;
+}
+void discard() {
+	sendInputQueue = decltype(sendInputQueue)();
+	alreadyawaitinganswer = 0;
+}
 void receivedanswer() {
 	if(alreadyawaitinganswer)
 		alreadyawaitinganswer--;
