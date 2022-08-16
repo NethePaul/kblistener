@@ -279,7 +279,7 @@ void If() {
 void inc() {
 	auto var = loadstrparam(command);
 	extern calculator calc;
-	auto a=calc.define(var.c_str());
+	auto a=calc.addVar(var.c_str());
 	if (a) {
 		a->second++; 
 
@@ -292,7 +292,7 @@ void inc() {
 void dec() {
 	auto var = loadstrparam(command);
 	extern calculator calc;
-	auto a = calc.define(var.c_str());
+	auto a = calc.addVar(var.c_str());
 	if (a) {
 		a->second--;
 

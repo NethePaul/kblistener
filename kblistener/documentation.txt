@@ -39,10 +39,13 @@ when entering a command, only printable characters and backspaces are accounted 
 math expressions:
 "def <name>"
 	to define a variable with the value 0. if the variable is already defined, the previous value is kept
-"<expr>=><name>"
-	assigns the variable name the value of the expression
-"<expr>[=><name>]<comparison operator><expr>"
-	compares the first expression to the second, and optionally assigns a variable to the value of the first expression
+"def <name><>"
+	to define a vector
+	e.g. "def vec<>", "20=>vec<5>", "vec<3+2>" -> 20
+"<expr>=><name>[<vector index>]"
+	assigns the value of the expression to the variable 'name' or, if an index is given, to the vector 'name' at the index
+"<expr>[=><assignment>]<comparison operator><expr>"
+	compares the first expression to the second, and optionally performs and assignment with the value of the first expression
 	comparison operators:
 		>	greater than
 		>=	greater or equals to

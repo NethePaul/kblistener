@@ -4,6 +4,7 @@
 #include<string>
 #include<vector>
 #include<memory>
+#include<unordered_map>
 
 
 class calculator {
@@ -31,22 +32,23 @@ public:
 	};
 
 private:
-
+	bool validatename(const char*in, int length=0);
 	std::vector<udfunction>udf;
 	std::vector<udoperator>udo;
 	int constcount = 0;//the first Variables are constant and should not be overwritten
 	std::vector<std::string>functions;
-	std::vector<std::pair<std::string, long double>>Var;//variables local to this class
-	std::vector<std::pair<std::string,std::vector<long double>>>lists;//arrays of variables local to this class
+	std::vector<std::pair<std::string, long double>>vars;//variables (e.g. x=10)
+	std::vector<std::pair<std::string, std::unordered_map<long long,long double>>>lists;//vectors (e.g. x<2>=10)
 
-	udfunction*is_udf(const char*in);
-	udoperator*is_udo(const char*in);
+	udfunction*isUdf(const char*in);
+	udoperator*isUdo(const char*in);
 
-	int is_Num(const char*in);
-	std::pair<std::string, long double>*is_Var(const char*in, bool*is_const = 0,int*len=0);
+	int isNum(const char*in);
+	std::pair<std::string, long double>*isVar(const char*in, bool*is_const = 0,int*len=0);
+	std::pair<std::string, std::unordered_map<long long,long double>>*isList(const char*in, int*len = 0);
 
-	int is_Function(const char*in);
-	bool is_value(const char*in);
+	int isFunction(const char*in);
+	bool isValue(const char*in);
 
 	long double faculty(int in);
 
@@ -65,7 +67,7 @@ public:
 	calculator(calculator&rhs);
 	calculator&operator=(calculator&rhs) {
 		constcount = rhs.constcount;
-		Var = rhs.Var;
+		vars = rhs.vars;
 		udf = rhs.udf;
 		udo = rhs.udo;
 		return*this;
@@ -79,7 +81,8 @@ public:
 	bool addOperator(const char*f);
 	bool delFunction(const char*in);
 	bool delOperator(const char*in);
-	void define(const char*in, long double val);
-	std::pair<std::string, long double>*define(const char*in);
+	bool addVar(const char*in, long double val);
+	std::pair<std::string, long double>*addVar(const char*in);
+	std::pair<std::string,std::unordered_map<long long,long double>>* addList(const char * in, int*len=0);
 	void undefine(const char*in);
 };
