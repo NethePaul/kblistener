@@ -13,7 +13,7 @@ void interrupt();
 void discard();
 void receivedanswer();
 void del(int i);
-int loadintparam(CircularBuffer<wchar_t, CMDLEN>&command);
+long double loadnumparam(CircularBuffer<wchar_t, CMDLEN>&command);
 bool singlewordfilter(wchar_t);//filters out only a singular word
 bool textfilter(wchar_t);
 std::string loadstrparam(CircularBuffer<wchar_t, CMDLEN>&command,bool(*filter)(wchar_t)=singlewordfilter);

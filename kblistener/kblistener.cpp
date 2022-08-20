@@ -105,7 +105,7 @@ void prev() {
 
 void load();
 void rep() {
-	int repeatcount = loadintparam(command);//optional parameter to set the repeatcount for this rep only
+	int repeatcount = loadnumparam(command);//optional parameter to set the repeatcount for this rep only
 	if (repeatcount == 0)repeatcount = ::repeatcount;
 	int loadsuccess = rec_.size();
 	load();
@@ -154,7 +154,7 @@ void test() {
 	MessageBox(0, L"kblistener is running", L"running", MB_ICONINFORMATION | MB_OK);
 }
 void set() {
-	repeatcount = loadintparam(command);
+	repeatcount = loadnumparam(command);
 }
 
 void load() {
@@ -225,14 +225,14 @@ void reptxt(const std::string&str) {
 	repnext();
 };
 void num() {
-	long double out=loadintparam(command);
+	long double out=loadnumparam(command);
 	std::ostringstream ss;
 	ss << out;
 	std::string str = ss.str();
 	reptxt(str);
 }
 void calc_() {
-	loadintparam(command);
+	loadnumparam(command);
 }
 void call() {
 	int loadsuccess = rec_.size();
@@ -272,7 +272,7 @@ void call() {
 	repnext();
 }
 void If() {
-	int con=loadintparam(command);
+	int con=loadnumparam(command);
 	if (con)call();
 	else popparam(command);
 }

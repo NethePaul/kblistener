@@ -82,7 +82,7 @@ void del(int i) {
 }
 
 calculator calc;
-int loadintparam(CircularBuffer<wchar_t, CMDLEN>&command)
+long double loadnumparam(CircularBuffer<wchar_t, CMDLEN>&command)
 {
 	return calc(loadstrparam(command, textfilter).c_str());
 }
