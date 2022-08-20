@@ -451,10 +451,17 @@ LRESULT CALLBACK proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 				DestroyWindow(hwnd);
 			}
 			else hhook = SetWindowsHookExA(WH_KEYBOARD, hook, dll, 0);
-			using initptr = void(__stdcall*)(HHOOK, HWND);
+			using initptr = bool(__stdcall*)(HHOOK, HWND);
 			initptr init = (initptr)GetProcAddress(dll, "_init@8");
 			if(!init)init = (initptr)GetProcAddress(dll, "init");
-			if (init)init(hhook, hwnd);
+			if (init)
+				if (!init(hhook, hwnd)) {//already running
+					MessageBoxA(0, "kblistener is already running", "error", MB_ICONERROR | MB_OK);
+					FreeLibrary(dll);
+					UnhookWindowsHookEx(hhook);
+					abort();
+					return 0;
+				}
 		}
 		return 0;
 	}
