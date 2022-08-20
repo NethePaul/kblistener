@@ -72,6 +72,7 @@ struct recorder {
 int repeatcount = 1;
 int recording = 0;
 int replaying = 0;
+int replaying2 = 0;
 std::stack<recorder>rec_;
 std::stack<rpqueue<INPUT>> sendInputQueue;
 #define recend rec_.top().end
@@ -310,7 +311,7 @@ void pause() { paused = true; }
 void resume() { paused = false; }
 
 #define c(id) L"#"#id,id
-Command commands[] = { 
+Command commands[] = {
 	L"#",setcmdindex,
 	c(resume),
 	c(pause),
@@ -333,7 +334,7 @@ Command commands[] = {
 	c(inc),
 	c(dec),
 	c(cont),
-	c(discard)
+	L"#discard",([]() {discard(); replaying = 0; replaying2 = 0; })
 };
 #undef c
 
@@ -372,7 +373,6 @@ int APIENTRY wWinMain(
 }
 
 LRESULT CALLBACK proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
-	static int replaying = 0;
 	wchar_t buffer[2]{};
 	switch (msg)
 	{
@@ -382,9 +382,9 @@ LRESULT CALLBACK proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 	case WM_KEYDOWN:
 		
 		if (wp == VK_REPLAYING) {//replays are not logged/recorded only the actual user imput is
-			replaying++;
+			replaying2++;
 		}
-		else if (!replaying) {
+		else if (!replaying2) {
 			lograw(rawlogfile, msg, wp, lp);
 			if (is_vk(wp)) { log(L"[DOWN]:"); log_vk(wp); }
 		}return 0;
@@ -393,9 +393,9 @@ LRESULT CALLBACK proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 			interrupt();
 		}
 		if (wp == VK_REPLAYING) {
-			if(replaying)replaying--;
+			if(replaying2)replaying2--;
 		}
-		else if (!replaying) {
+		else if (!replaying2) {
 			lograw(rawlogfile, msg, wp, lp);
 			if (is_vk(wp)) { log(L"[  UP]:"); log_vk(wp); }
 		}return 0;
@@ -405,7 +405,7 @@ LRESULT CALLBACK proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 		}
 		if (iswprint(wp))
 		{
-			if (!addNL&&!replaying) {
+			if (!addNL&&!replaying2) {
 				log(L"[TEXT]:");
 			}
 			addNL = true;
@@ -427,7 +427,7 @@ LRESULT CALLBACK proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 				}
 			}
 			buffer[0] = wp;
-			if(!replaying)log(buffer, 1);
+			if(!replaying2)log(buffer, 1);
 		}
 		break;
 		return 0;
